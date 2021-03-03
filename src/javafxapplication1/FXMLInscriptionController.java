@@ -65,7 +65,7 @@ public class FXMLInscriptionController implements Initializable {
     private void handleButtonAction(ActionEvent event) throws IOException {
         if (event.getSource() == bntinscrire) {
             insertRecord();
-            Parent Ajouter = FXMLLoader.load(getClass().getResource("FXMLInscription.fxml"));
+            Parent Ajouter = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
             Scene scene = new Scene(Ajouter);
             Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
             window.setScene(scene);

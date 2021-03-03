@@ -61,7 +61,7 @@
             <TextField fx:id="tfStatus" />
          </children>
       </VBox>
-      <TableView fx:id="tvuser" layoutX="302.0" layoutY="75.0" prefHeight="324.0" prefWidth="455.0">
+      <TableView fx:id="tvuser" layoutX="302.0" layoutY="75.0" onMouseClicked="#handleMouseAction" prefHeight="324.0" prefWidth="455.0">
         <columns>
           <TableColumn fx:id="colid" prefWidth="61.0" text="ID_User" />
           <TableColumn fx:id="colNom" prefWidth="56.0" text="Nom" />

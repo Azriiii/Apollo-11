@@ -30,6 +30,10 @@ public class User {
         this.Status = Status;
     }
 
+    User(int aInt, String string, String string0, String string1, String string2, String string3) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     public String getAdress() {
         return Adress;
     }
@@ -44,6 +48,11 @@ public class User {
         this.Email = Email;
         this.Password = Password;
         this.Adress = Adress;
+    }
+
+    public User(String Email, String Password) {
+        this.Email = Email;
+        this.Password = Password;
     }
 
    

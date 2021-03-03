@@ -22,7 +22,6 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
@@ -31,14 +30,26 @@ import javafx.stage.Stage;
  *
  * @author Amine
  */
-public class FXMLLogin2Controller implements Initializable {
+public class FXMLParamController implements Initializable {
 
     @FXML
-    private TextField tfLogin;
+    private TextField tfNom;
     @FXML
-    private PasswordField tfPassword;
+    private TextField tfPrenom;
     @FXML
-    private Button bntConnect;
+    private TextField tfAdress;
+    @FXML
+    private TextField tfEmail;
+    @FXML
+    private TextField tfPassword;
+    @FXML
+    private Button bntModifier;
+    @FXML
+    private Button bntModifier1;
+    @FXML
+    private Button bntRetour;
+    @FXML
+    private Button bntSupprimer;
 
     /**
      * Initializes the controller class.
@@ -46,12 +57,21 @@ public class FXMLLogin2Controller implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    }    
+    }
 
     @FXML
     private void handleButtonAction(ActionEvent event) throws IOException {
-        if (event.getSource() == bntConnect) {
-            insertRecord();
+        if (event.getSource() == bntModifier1) {
+            //insertRecord();
+            UpdateRecord();
+            Parent Ajouter = FXMLLoader.load(getClass().getResource("FXMLSCOREPARAM.fxml"));
+            Scene scene = new Scene(Ajouter);
+            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            window.setScene(scene);
+            window.show();
+        } else if (event.getSource() == bntSupprimer) {
+            //insertRecord();
+            Supprimer();
             Parent Ajouter = FXMLLoader.load(getClass().getResource("FXMLSCOREPARAM.fxml"));
             Scene scene = new Scene(Ajouter);
             Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -96,7 +116,18 @@ public class FXMLLogin2Controller implements Initializable {
     }
 
     private void insertRecord() {
-        String query = "INSERT INTO login (Email,Password) VALUES('" + tfLogin.getText() + "','" + tfPassword.getText()+ "')";
+        String query = "INSERT INTO user1 (Nom,Prenom,Email,Adress,Password) VALUES('" + tfNom.getText() + "','" + tfPrenom.getText() + "','" + tfEmail.getText() + "','" + tfAdress.getText() + "','" + tfPassword.getText() + "')";
+        executeQuery(query);
+    }
+
+    private void UpdateRecord() {
+         String query = "UPDATE user1 set Nom = '" + tfNom.getText() + "', Prenom= '" + tfPrenom.getText() + "', Email = '" + tfEmail.getText() + "', Adress = '" + tfAdress.getText() + "', Password = '" + tfPassword.getText() + " WHERE Email = "+tfEmail.getText()+"'";
+        // String query = "UPDATE user1 set Nom = '" + tfNom.getText() + "', Prenom= '" + tfPrenom.getText() + "', Email = '" + tfEmail.getText() + "', Adress = '" + tfAdress.getText() + "', Password = '" + tfPassword.getText() + " WHERE Email = "+tfEmail.getText()+"'";
+        executeQuery(query);
+    }
+
+    private void Supprimer() {
+        String query = "DELETE FROM user1 WHERE Email='" + tfEmail.getText() + "'";
         executeQuery(query);
     }
 

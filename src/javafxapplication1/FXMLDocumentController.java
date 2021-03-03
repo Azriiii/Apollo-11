@@ -5,6 +5,7 @@
  */
 package javafxapplication1;
 
+import java.awt.event.MouseEvent;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -79,82 +80,94 @@ public class FXMLDocumentController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
         showuser();
-    }    
+    }
 
     @FXML
     private void handleButtonAction(ActionEvent event) {
-            if (event.getSource()== bntinsert){
+        if (event.getSource() == bntinsert) {
             insertRecord();
             showuser();
-        }else if (event.getSource()== btnModifier){
-            
-        }else if (event.getSource()== btnSupprimer){
-           
+        } else if (event.getSource() == btnModifier) {
+
+        } else if (event.getSource() == btnSupprimer) {
+
         }
     }
-    
-     public Connection getConnetion(){
+
+    public Connection getConnetion() {
         Connection conn;
-        try{
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/2fac","root","");
+        try {
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/2fac", "root", "");
             return conn;
-        }catch(Exception ex){
+        } catch (Exception ex) {
             System.out.println("error");
             return null;
         }
     }
-    
-     public ObservableList<User> getUserList(){
+
+    public ObservableList<User> getUserList() {
         ObservableList<User> userlist = FXCollections.observableArrayList();
         Connection conn = getConnetion();
-        String query= "SELECT * FROM user";
+        String query = "SELECT * FROM user";
         Statement st;
         ResultSet rs;
-        
-        try{
+
+        try {
             st = conn.createStatement();
             rs = st.executeQuery(query);
             User user;
-            while(rs.next()){
-                user = new User(rs.getInt("ID_User"), rs.getString("Nom"), rs.getString("Prenom"),rs.getString("Email"),rs.getString("Date"),rs.getString("Password"),rs.getString("Status"));
+            while (rs.next()) {
+                user = new User(rs.getInt("ID_User"), rs.getString("Nom"), rs.getString("Prenom"), rs.getString("Email"), rs.getString("Date"), rs.getString("Password"), rs.getString("Status"));
                 userlist.add(user);
-                
+
             }
-        }catch(Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
-            
+
         }
         return userlist;
-}
-         public void showuser(){
+    }
+
+    public void showuser() {
         ObservableList<User> list = getUserList();
-        
+
         colid.setCellValueFactory(new PropertyValueFactory<User, Integer>("ID_User"));
         colNom.setCellValueFactory(new PropertyValueFactory<User, String>("Nom"));
-        colPrenom.setCellValueFactory(new PropertyValueFactory<User,String>("Prenom"));
+        colPrenom.setCellValueFactory(new PropertyValueFactory<User, String>("Prenom"));
         colEmail.setCellValueFactory(new PropertyValueFactory<User, String>("Email"));
         colDate.setCellValueFactory(new PropertyValueFactory<User, String>("Date"));
         colPassword.setCellValueFactory(new PropertyValueFactory<User, String>("Password"));
         colStatus.setCellValueFactory(new PropertyValueFactory<User, String>("Status"));
-        
+
         tvuser.setItems(list);
     }
-         private void insertRecord(){ 
-       // String query = "INSERT INTO user VALUES("+tfid.getText()+",'"+tfNom.getText()+"','"+tfStatus.getText()+"',"+tfid.getText()+","+tfid.getText()+")";
- String query = "INSERT INTO user VALUES("+tfid.getText()+",'"+tfNom.getText()+"','"+tfPrenom.getText()+"','"+tfEmail.getText()+"','"+tfDate.getText()+"','"+tfPassword.getText()+"','"+tfStatus.getText()+"')";
- //String query = "INSERT INTO user VALUES("+tfNom.getText()+"','"+tfPrenom.getText()+"','"+tfEmail.getText()+"','"+tfDate.getText()+"','"+tfPassword.getText()+"','"+tfStatus.getText()+"')";
+
+    private void insertRecord() {
+        String query = "INSERT INTO user VALUES(" + tfid.getText() + ",'" + tfNom.getText() + "','" + tfPrenom.getText() + "','" + tfEmail.getText() + "','" + tfDate.getText() + "','" + tfPassword.getText() + "','" + tfStatus.getText() + "')";
         executeQuery(query);
         showuser();
     }
 
     private void executeQuery(String query) {
-Connection conn = getConnetion();
+        Connection conn = getConnetion();
         Statement st;
-        try{
-            st=conn.createStatement();
+        try {
+            st = conn.createStatement();
             st.executeUpdate(query);
-        }catch (Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
-            
-        }    }
+
+        }
+    }
+
+    @FXML
+    private void handleMouseAction(javafx.scene.input.MouseEvent event) {
+        User user = tvuser.getSelectionModel().getSelectedItem();
+        tfid.setText("" + user.getID_User());
+        tfNom.setText("" + user.getNom());
+        tfPrenom.setText("" + user.getPrenom());
+        tfEmail.setText("" + user.getEmail());
+        tfDate.setText("" + user.getDate());
+        tfStatus.setText("" + user.getStatus());
+    }
 }
